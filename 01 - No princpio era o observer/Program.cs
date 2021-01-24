@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using ObserverExample.Brokers;
+﻿using ObserverExample.Brokers;
 using ObserverExample.Events;
 using ObserverExample.Financials.Handlers;
 using ObserverExample.Sales.Handlers;
 using ObserverExample.Warehouses.Handlers;
+using System;
+using System.Collections.Generic;
 
 namespace ObserverExample
 {
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
-            var broker = RetornarBrokerConfigurado();
+            var eventBus = RetornarEventBusConfigurado();
 
             var saleSold = VendaEfetuadaNoControllerDaApp();
 
-            broker.Notify(saleSold);
+            eventBus.Publish(saleSold);
             Console.ReadLine();
         }
 
@@ -41,13 +41,10 @@ namespace ObserverExample
                 },
         };
 
-        private static SaleSoldNotifier RetornarBrokerConfigurado()
-        {
-            var broker = new SaleSoldNotifier();
-            broker.Add(new WarehouseSalesSoldHandler());
-            broker.Add(new FinancialSaleSoldHandler());
-            broker.Add(new SaleSoldHandler());
-            return broker;
-        }
+        private static ISaleSoldEventBus RetornarEventBusConfigurado() =>
+            new SaleSoldEventBus()
+                .Subscribe(new WarehouseSalesSoldHandler())
+                .Subscribe(new FinancialSaleSoldHandler())
+                .Subscribe(new SaleSoldHandler());
     }
 }

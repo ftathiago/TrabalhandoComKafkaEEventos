@@ -1,13 +1,14 @@
-using System.Linq;
+using ObserverExample.Brokers;
 using ObserverExample.Events;
 using ObserverExample.Sales.Model;
 using ObserverExample.Sales.Repositories;
+using System.Linq;
 
 namespace ObserverExample.Sales.Handlers
 {
-    public class SaleSoldHandler : ISaleSoldNotify
+    public class SaleSoldHandler : ISaleSoldConsumer
     {
-        public void Update(SaleSold saleSold)
+        public void Consume(SaleSold saleSold)
         {
             var sale = new Sale
             {

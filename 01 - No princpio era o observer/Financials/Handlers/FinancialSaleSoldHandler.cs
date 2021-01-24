@@ -1,12 +1,13 @@
-using System.Linq;
+using ObserverExample.Brokers;
 using ObserverExample.Events;
 using ObserverExample.Financials.Models;
+using System.Linq;
 
 namespace ObserverExample.Financials.Handlers
 {
-    public class FinancialSaleSoldHandler : ISaleSoldNotify
+    public class FinancialSaleSoldHandler : ISaleSoldConsumer
     {
-        public void Update(SaleSold saleSold)
+        public void Consume(SaleSold saleSold)
         {
             var authorizable = new Transaction
             {

@@ -1,13 +1,14 @@
-using System.Collections.Generic;
-using System.Linq;
+using ObserverExample.Brokers;
 using ObserverExample.Events;
 using ObserverExample.Warehouses.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ObserverExample.Warehouses.Handlers
 {
-    public class WarehouseSalesSoldHandler : ISaleSoldNotify
+    public class WarehouseSalesSoldHandler : ISaleSoldConsumer
     {
-        public void Update(SaleSold saleSold)
+        public void Consume(SaleSold saleSold)
         {
             var controller = new StockController();
             var movements = From(saleSold);
